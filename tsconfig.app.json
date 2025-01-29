@@ -37,9 +37,11 @@
       "@store/*": ["store/*"],
       "@api/*": ["api/*"],
       "@hooks/*": ["hooks/*"],
-      "@types/*": ["types/*"],
+      "@types/*": ["types/*"]
     },
-    "typeRoots": ["./node_modules/@types", "./src/types"], // Ajoute les types personnalisés à ce tableau
+    "typeRoots": ["./node_modules/@types", "./src/types"], // Ajoute les types personnalisés ici
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
