@@ -20,7 +20,26 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@common-atoms/*": ["components/common/atoms/*"],
+      "@common-molecules/*": ["components/common/molecules/*"],
+      "@common-organisms/*": ["components/common/organisms/*"],
+      "@common-templates/*": ["components/common/templates/*"],
+      "@common-pages/*": ["components/common/pages/*"],
+      "@features-atoms/*": ["components/features/atoms/*"],
+      "@features-molecules/*": ["components/features/molecules/*"],
+      "@features-organisms/*": ["components/features/organisms/*"],
+      "@features-templates/*": ["components/features/templates/*"],
+      "@features-pages/*": ["components/features/pages/*"],
+
+      "@store/*": ["store/*"],
+      "@api/*": ["api/*"],
+      "@hooks/*": ["hooks/*"],
+      "@types/*": ["types/*"],
+    },
+    "typeRoots": ["./node_modules/@types", "./src/types"], // Ajoute les types personnalisés à ce tableau
   },
   "include": ["src"]
 }
