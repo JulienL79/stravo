@@ -3,12 +3,15 @@ import React from "react";
 import "./Input.css"
 
 export const Input: React.FC<IInputProps> = ({
+    id,
     type,
     placeholder,
     className = "",
-    value = ""
+    value = "",
+    required = false,
+    onChange
 }) => {
     return (
-        <input type={type} placeholder={placeholder} className={className} value={value}/>
+        <input id={id} type={type} placeholder={placeholder} className={className} value={value} required={required} onChange={onChange}/>
     )
 };

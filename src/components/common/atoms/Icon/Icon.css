@@ -1,0 +1,8 @@
+.icon {
+    stroke: var(--color-primary)
+}
+
+.nav-item .icon:hover,
+.link .icon:hover {
+    stroke: var(--color-third)
+}

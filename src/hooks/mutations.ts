@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addActivity, updateActivity, deleteActivity } from "@api/activityApi";
-import { IActivity } from "../types/Activity";
+import { followUser, unFollowUser } from "@api/userApi";
+import { IActivity } from "@types/Activity";
+import { IUser } from "@types/User";
 
 export const useCreateActivity = () => {
     const queryClient = useQueryClient()
@@ -30,7 +32,8 @@ export const useUpdateActivity = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: updateActivity,
+        mutationFn: ({ user_id, activity }: { user_id: string; activity : IActivity }) =>
+            updateActivity(user_id, activity),
         onSuccess: (updatedActivity: IActivity | null) => {
 
             if(updatedActivity) {
@@ -60,7 +63,8 @@ export const useDeleteActivity = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: deleteActivity,
+        mutationFn: ({ user_id, activity_id }: { user_id: string; activity_id : string }) => 
+            deleteActivity(user_id, activity_id),
         onSuccess: (deletedActivityId: string | null) => {
 
             if(deletedActivityId) {
@@ -77,6 +81,34 @@ export const useDeleteActivity = () => {
                     // Supprimer l'activité du cache
                     return oldActivities.filter((activity) => activity.id !== deletedActivityId);
                 });
+            }
+        }
+    })
+}
+
+export const useFollowUser = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: ({ user, userToFollowID }: { user: IUser; userToFollowID: string }) =>
+            followUser(user, userToFollowID),
+        onSuccess: (updatedCurrentUser: IUser | null) => {
+            if(updatedCurrentUser) {
+                queryClient.invalidateQueries({ queryKey: ["home-activities", updatedCurrentUser] })
+            }
+        }
+    })
+}
+
+export const useUnFollowUser = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: ({ user, userToUnFollowID }: { user: IUser; userToUnFollowID: string }) =>
+            unFollowUser(user, userToUnFollowID),
+        onSuccess: (updatedCurrentUser: IUser | null) => {
+            if(updatedCurrentUser) {
+                queryClient.invalidateQueries({ queryKey: ["home-activities", updatedCurrentUser] })
             }
         }
     })

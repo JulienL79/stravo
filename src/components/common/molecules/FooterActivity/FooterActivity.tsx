@@ -20,12 +20,11 @@ export const FooterActivity : React.FC<IFooterActivityProps> = ({activity}) => {
                 ...activity,
                 likes: isLiked
                     ? activity.likes.filter(liker => liker.user_id !== user.id) // Retirer le like
-                    : [...activity.likes, { user_id: user.id, user_name: user.name }] // Ajouter le like
+                    : [...activity.likes, { user_id: user.id, user_name: user.name, user_avatar: user.avatar }] // Ajouter le like
             }
     
             setIsLiked(!isLiked)
-            updateActivity(updatedActivity)
-    
+            updateActivity(user.id, updatedActivity)
         }
     }
 

@@ -1,0 +1,43 @@
+button {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: var(--font-weight-title);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: var(--font-size-body)
+}
+
+button:hover {
+    background-color: var(--color-third);
+    color: var(--color-primary);
+    transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus {
+    outline-offset: 3px;
+}
+
+.close-btn {
+    background-color: var(--color-secondary);
+    color: var(--color-third);
+    padding: .4rem .9rem;
+}
+
+.close-btn:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-third);
+}
+
+button.link {
+    background-color: inherit;
+    box-shadow: none;
+}

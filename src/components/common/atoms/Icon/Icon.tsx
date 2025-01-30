@@ -4,5 +4,5 @@ import "./Icon.css"
 
 export const Icon = ({ name, ...props }: IIconProps) => {
   const LucideIcon = LucideIcons[name] as React.ElementType;
-  return LucideIcon ? <LucideIcon {...props} /> : null;
+  return LucideIcon ? <LucideIcon className="icon" {...props} /> : null;
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { IActivity } from "../types/Activity";
-import type { IUser, IFollowing } from "../types/User";
+import type { IActivity } from "@types/Activity";
+import type { IUser, IFollowing } from "@types/User";
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -26,26 +26,26 @@ export const fetchAllActivities = async () : Promise<IActivity[] | null>=> {
     }
 }
 
-export const fetchActivitiesOfUser = async (user_id : string) : Promise<IActivity[] | null> => {
+export const fetchActivitiesOfUser = async (user_id : string) : Promise<IActivity[]> => {
     try {
-        const response = await fetchAllActivities()
+        const response = await axios.get(`${API_URL}/users/${user_id}/activities`)
+        
         if(!response) {
             throw new Error ("Erreur lors de la récupération des activités")
         }
-        const activities: IActivity[] = response
-        const filteredActivity : IActivity[] = activities.filter((activity) => activity.user_id === user_id)
-        return filteredActivity
+        const activities: IActivity[] = response.data
+        return activities
     } catch (err) {
         console.error("Erreur lors de la récupération de l'activité :", err)
-        return null
     }
 }
 
-export const fetchFollowingsActivities = async (user : IUser) : Promise<IActivity[] | null>=> {
+export const fetchFollowingsActivities = async (user : IUser) : Promise<IActivity[]>=> {
     try {
         const followings : IFollowing[] = user.followings
 
-        const activitiesPromises = followings.map((following) => fetchActivitiesOfUser(following.user_id));
+        const activitiesPromises = followings.map(async (following) => {
+            return await fetchActivitiesOfUser(following.user_id)});
         // Attendre que toutes les requêtes soient terminées
         const activitiesArrays = await Promise.all(activitiesPromises);
         // Fusionner tous les tableaux d'activités en un seul
@@ -54,7 +54,6 @@ export const fetchFollowingsActivities = async (user : IUser) : Promise<IActivit
         return friendActivities
     } catch (err) {
         console.error("Erreur lors de la récupération des activités :", err)
-        return null
     }
 }
 
@@ -69,9 +68,9 @@ export const addActivity = async (activity : IActivity) : Promise<IActivity | nu
     }
 }
 
-export const deleteActivity = async (activity_id : string) : Promise<string | null> => {
+export const deleteActivity = async (user_id : string, activity_id : string) : Promise<string | null> => {
     try {
-        await axios.delete(`${API_URL}/activities/${activity_id}`)
+        await axios.delete(`${API_URL}/users/${user_id}/activities/${activity_id}`)
         return activity_id
     }
     catch(err) {
@@ -80,9 +79,9 @@ export const deleteActivity = async (activity_id : string) : Promise<string | nu
     }
 }
 
-export const updateActivity = async (activity : IActivity) : Promise<IActivity | null> => {
+export const updateActivity = async (user_id : string, activity : IActivity) : Promise<IActivity | null> => {
     try {
-        await axios.put(`${API_URL}/activities/${activity.id}`, activity)
+        await axios.put(`${API_URL}/users/${user_id}/activities/${activity.id}`, activity)
         return activity
     }
     catch(err) {

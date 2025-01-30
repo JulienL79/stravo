@@ -5,7 +5,8 @@ import "./Skeleton.css"
 export const Skeleton: React.FC<ISkeletonProps> = ({
     width = "100%",
     height = "1rem",
-    borderRadius = "4px"
+    borderRadius = "4px",
+    margin = "10px auto"
 }) => {
     return (
         <div
@@ -13,7 +14,8 @@ export const Skeleton: React.FC<ISkeletonProps> = ({
             style={{
                 width,
                 height,
-                borderRadius
+                borderRadius,
+                margin
             }}
         />
     )

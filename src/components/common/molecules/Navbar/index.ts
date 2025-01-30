@@ -1,2 +1,2 @@
-export * from "./NavList"
-export * from "./NavList.props"
+export * from "./Navbar"
+export * from "./Navbar.props"

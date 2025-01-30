@@ -1,22 +1,36 @@
 import React from "react";
 import { INavbarProps } from "./Navbar.props";
 import { NavItem } from "@common-atoms/NavItem";
-import { Image } from "@common-atoms/Image";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@store/useAuthStore";
 import "./Navbar.css"
+import { Button } from "@common-atoms/Button";
+import { Icon } from "@common-atoms/Icon";
 
 export const Navbar : React.FC<INavbarProps> = ({ 
     navLinks,
     className = ""
 }) => {
 
-    if(className="header") {
+    const { logout } = useAuthStore();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate("/login");
+    };
+
+    if(className === "header") {
         return (
             <header>
                 <div className="navbar">
-                    <NavItem to="/" content={<Image className="logo" src="./logo.png" alt="Logo Stravo"/>} />
-                    <div className="nav-links">
+                    <NavItem to="/" content={"S"} className="logo"/>
+                    <div className="header-link nav-links">
                         {navLinks.map((link) => {
-                            return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} content={link.content}/>
+                            if(link.className === "logout") {
+                                return <Button key={link.to} className="link logout" content={<Icon name="LogOut"/>} onClick={() => handleLogout()} />
+                            }
+                            return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} name={link.name ? link.name : ""} content={link.content}/>
                         })}
                     </div>
                 </div>
@@ -24,13 +38,13 @@ export const Navbar : React.FC<INavbarProps> = ({
         )
     }
 
-    if(className="footer") {
+    if(className === "footer") {
         return (
             <footer>
                 <div className="navbar">
                     <div className="nav-links">
                         {navLinks.map((link) => {
-                            return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} content={link.content}/>
+                            return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} name={link.name ? link.name : ""} content={link.content}/>
                         })}
                     </div>
                 </div>
@@ -42,7 +56,7 @@ export const Navbar : React.FC<INavbarProps> = ({
         <div className="navbar">
             <div className="nav-links">
                 {navLinks.map((link) => {
-                    return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} content={link.content}/>
+                    return <NavItem key={link.to} to={link.to} className={link.className ? link.className : ""} name={link.name ? link.name : ""} content={link.content}/>
                 })}
             </div>
         </div>

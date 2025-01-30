@@ -1,12 +1,14 @@
 export interface ILike {
     user_id: string,
     user_name: string,
+    user_avatar: string
 }
 
 export interface IComment {
     id: string,
     user_id: string,
     user_name: string,
+    user_avatar: string,
     date: Date,
     content: string
 }
@@ -16,7 +18,7 @@ export interface IActivity {
     id: string,
     title: string,
     type: string,
-    time: number,
+    duration: number,
     user_id: string,
     elevGain: number,
     distance: number,
