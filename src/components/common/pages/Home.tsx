@@ -42,6 +42,27 @@ export const Home = () => {
                     <Separator />
                     <Skeleton width="100%" height="40px" margin="0" />
                 </div>
+                <div className="activity-card">
+                    <Skeleton width="100%" height="80px" margin="0" />
+                    <Separator />
+                    <Skeleton width="100%" height="30px" />
+                    <div className="activity-stats">
+                        <div className="stat">
+                            <Skeleton width="90%" height="40px" margin="0" />
+                        </div>
+                        <div className="stat">
+                            <Skeleton width="90%" height="40px" margin="0" />
+                        </div>
+                        <div className="stat">
+                            <Skeleton width="90%" height="40px" margin="0" />
+                        </div>
+                    </div>
+                    <div className="like-stat">
+                        <Skeleton width="20%" height="30px" margin="0" />
+                    </div>
+                    <Separator />
+                    <Skeleton width="100%" height="40px" margin="0" />
+                </div>
             </div>
         )
     }

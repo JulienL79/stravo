@@ -10,7 +10,7 @@ export const HeaderActivity : React.FC<IHeaderActivityProps> = ({activity, owner
 
     return (
         <div className="header-activity">
-            <Link to={`user/${activity.user_id}`}>
+            <Link to={`users/${activity.user_id}`}>
                 <Image className="avatar" src={owner.avatar} alt={owner.name}/>
             </Link>
             <div className="header-activity-info">
