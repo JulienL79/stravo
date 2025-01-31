@@ -5,5 +5,7 @@ export interface IInputProps {
     type: string,
     placeholder: string,
     required?: boolean,
+    min?: number,
+    step?: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }

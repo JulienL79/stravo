@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IUser } from "@types/User";
+import { useAuthStore } from "@store/useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -14,25 +15,25 @@ interface IUserRegister {
     password?: string
 }
 
-export const fetchUserById = async (user_id : string) : Promise<IUser | null> => {
+export const fetchUserById = async (user_id : string) : Promise<IUser> => {
     try {
         const response = await axios.get(`${API_URL}/users/${user_id}`)
         const user: IUser = response.data
         return { ...user, createdAt: new Date(user.createdAt) }
     } catch (err) {
         console.error("Erreur lors de la récupération de l'utilisateur :", err)
-        return null
+        throw new Error("Erreur lors de la récupération de l'utilisateur")
     }
 }
 
-export const fetchAllUsers = async () : Promise<IUser[] | null>=> {
+export const fetchAllUsers = async () : Promise<IUser[]>=> {
     try {
         const response = await axios.get(`${API_URL}/users`)
         const users: IUser[] = response.data
         return users
     } catch (err) {
         console.error("Erreur lors de la récupération des utilisateurs :", err)
-        return null
+        throw new Error("Erreur lors de la récupération des utilisateurs")
     }
 }
 
@@ -45,8 +46,7 @@ export const createUser = async (userInformation : IUserRegister) : Promise<bool
 
         const hashedPassword = userInformation.password
         const user = {...userInformation, password: hashedPassword}
-        const response = await axios.post(`${API_URL}/users`, user)
-        console.log(response)
+        await axios.post(`${API_URL}/users`, user)
         return true
     }
     catch(err) {
@@ -67,12 +67,12 @@ export const deleteUser = async (user_id : string) : Promise<boolean> => {
 
 export const updateUser = async (user : IUser) : Promise<boolean> => {
     try {
-        await axios.put(`${API_URL}/users/${user.id}`, user)
-        return true
+        const response = await axios.put(`${API_URL}/users/${user.id}`, user)
+        return response.data
     }
     catch(err) {
         console.error("Erreur lors de la modification de l'utilisateur:", err)
-        return false;
+        throw new Error("Erreur lors de la modification de l'utilisateur");
     }
 }
 
@@ -113,46 +113,81 @@ export const logoutAPI = () => {
     localStorage.removeItem("user");
 };
 
-export const followUser = async (user : IUser, user_id : string) : Promise<IUser | null> => {
+export const followUser = async (user : IUser, user_id : string) : Promise<IUser> => {
     try {
-        let userToFollow = await fetchUserById(user_id)
+        const userToFollow = await fetchUserById(user_id)
 
-        if(!userToFollow) throw new Error ("Erreur lors du follow")
+        if(!userToFollow) {
+            throw new Error("L'utilisateur à suivre n'existe pas");
+        }
 
-        user = {...user, followings: [...user.followings, {user_id: userToFollow.id, user_name: userToFollow.name, user_avatar: userToFollow.avatar}]}
-        userToFollow = {...userToFollow, followers: [...userToFollow.followers, {user_id: user.id, user_name: user.name, user_avatar: user.avatar}]}
+        const alreadyFollowing = user.followings.some(following => following.user_id === userToFollow.id);
+        if (alreadyFollowing) {
+            throw new Error("Vous suivez déjà cet utilisateur");
+        }
+
+        const updatedUser: IUser = {
+            ...user,
+            followings: [...user.followings, { user_id: userToFollow.id, user_name: userToFollow.name, user_avatar: userToFollow.avatar }]
+        };
+
+        const updatedUserToFollow: IUser = {
+            ...userToFollow,
+            followers: [...userToFollow.followers, { user_id: user.id, user_name: user.name, user_avatar: user.avatar }]
+        };
         
-        const firstUpdate = await updateUser(user)
-        const secondUpdate = await updateUser(userToFollow)
+        const [firstUpdate, secondUpdate] = await Promise.all([
+            updateUser(updatedUser),
+            updateUser(updatedUserToFollow)
+        ]);
 
-        if (!firstUpdate || !secondUpdate) throw new Error ("Erreur lors du follow")
+        if (!firstUpdate || !secondUpdate) {
+            throw new Error("Erreur lors du follow");
+        }
 
-        return user
+        useAuthStore.getState().setUser(updatedUser);
+
+        return updatedUser;
     }
     catch(err) {
         console.error("Erreur lors du follow", err);
-        return null
+        throw new Error("Erreur lors du follow");
     }
 }
 
-export const unFollowUser = async (user : IUser, user_id : string) : Promise<IUser | null> => {
+export const unFollowUser = async (user : IUser, user_id : string) : Promise<IUser> => {
     try {
-        let userToUnFollow = await fetchUserById(user_id)
+        const userToUnFollow = await fetchUserById(user_id)
 
-        if(!userToUnFollow) throw new Error ("Erreur lors du follow")
+        if (!userToUnFollow) {
+            throw new Error("L'utilisateur à ne plus suivre n'existe pas");
+        }
 
-        user = {...user, followings: user.followings.filter(following => following.user_id === user_id)}
-        userToUnFollow = {...userToUnFollow, followers: userToUnFollow.followers.filter(follower => follower.user_id === user.id)}
+        const updatedUser: IUser = {
+            ...user,
+            followings: user.followings.filter(following => following.user_id !== user_id)
+        };
+
+        const updatedUserToUnFollow: IUser = {
+            ...userToUnFollow,
+            followers: userToUnFollow.followers.filter(follower => follower.user_id !== user.id)
+        };
         
-        const firstUpdate = await updateUser(user)
-        const secondUpdate = await updateUser(userToUnFollow)
+        const [firstUpdate, secondUpdate] = await Promise.all([
+            updateUser(updatedUser),
+            updateUser(updatedUserToUnFollow)
+        ]);
 
-        if (!firstUpdate || !secondUpdate) throw new Error ("Erreur lors du follow")
+        if (!firstUpdate || !secondUpdate) {
+            throw new Error("Erreur lors du unfollow");
+        }
 
-        return user
+        useAuthStore.getState().setUser(updatedUser);
+
+        return updatedUser;
     }
     catch(err) {
-        console.error("Erreur lors du follow", err);
-        return null
+        console.error("Erreur lors du unfollow", err);
+        throw new Error("Erreur lors du unfollow");
     }
 }

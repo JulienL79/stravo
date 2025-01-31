@@ -1,0 +1,27 @@
+.header-activity {
+    display: flex;
+}
+
+.header-activity a {
+    display: block;
+    border-radius: 50%;
+    width: 20%;
+    aspect-ratio: 1/1;
+}
+
+.header-activity a::after {
+    display: none;
+}
+
+.header-activity-info {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    padding: 0.5rem 1rem;
+}
+
+.header-activity-info h3,
+.header-date,
+.header-type {
+    width: 100%;
+}

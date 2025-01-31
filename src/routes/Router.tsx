@@ -7,6 +7,9 @@ import { NotFound } from "@common-pages/Not found"
 import { PrivateRoute } from "./PrivateRoute"
 import { LoginPage } from "@common-pages/LoginPage"
 import { RegisterPage } from "@common-pages/RegisterPage"
+import { ActivityCreation } from "@common-pages/ActivityCreation"
+import { Search } from "@common-pages/Search"
+import { User } from "@common-pages/User"
 
 export const Router = () => {
 
@@ -42,12 +45,45 @@ export const Router = () => {
             </Route>
 
             <Route element={<PrivateRoute />}>
+                <Route path="/search" element={
+                    <>
+                        <Helmet>
+                            <title>Accueil</title>
+                        </Helmet>
+                        <Search />
+                    </>
+                } />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
                 <Route path="/activity/:id" element={
                     <>
                         <Helmet>
                             <title>Détail de l'activité</title>
                         </Helmet>
                         <ActivityDetails />
+                    </>
+                } />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+                <Route path="/users/:id" element={
+                    <>
+                        <Helmet>
+                            <title>Profil de l'utilisateur</title>
+                        </Helmet>
+                        <User />
+                    </>
+                } />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+                <Route path="/activity/add" element={
+                     <>
+                        <Helmet>
+                            <title>Ajouter une activité</title>
+                        </Helmet>
+                        <ActivityCreation />
                     </>
                 } />
             </Route>

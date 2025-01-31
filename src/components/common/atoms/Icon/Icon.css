@@ -3,6 +3,8 @@
 }
 
 .nav-item .icon:hover,
-.link .icon:hover {
+.link .icon:hover,
+.liked .icon {
     stroke: var(--color-third)
 }
+

@@ -6,6 +6,8 @@ interface IFormField {
     type: string;
     placeholder: string;
     required: boolean;
+    min?: number,
+    step?: string
 }
 
 export interface IFormProps {

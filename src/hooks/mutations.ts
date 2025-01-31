@@ -4,26 +4,39 @@ import { followUser, unFollowUser } from "@api/userApi";
 import { IActivity } from "@types/Activity";
 import { IUser } from "@types/User";
 
+interface INewActivity {
+    title: string,
+    type: string,
+    duration: number,
+    elevGain: number,
+    distance: number,
+    place: string
+}
+
 export const useCreateActivity = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: addActivity,
-        onSuccess: (newActivity: IActivity | null) => {
-
-            if(newActivity) {
+        mutationFn: ({ user, activity }: { user: IUser; activity : INewActivity}) =>
+            addActivity(user, activity),
+        onSuccess: (activityCreated: IActivity) => {
+            if(activityCreated) {
                 // Mettre à jour les données dans le cache pour la requête "personnal-activities"
-                queryClient.setQueryData(["personnal-activities", newActivity.user_id], (oldActivities: IActivity[] | undefined) => {
-                    if (!oldActivities) return [newActivity]; // Si pas d'activités, initialise avec la nouvelle activité
-                    return [...oldActivities, newActivity]; // Sinon, ajoute la nouvelle activité
+                queryClient.setQueryData(["personnal-activities"], (oldActivities: IActivity[] | undefined) => {
+                    if (!oldActivities) return [activityCreated]; // Si pas d'activités, initialise avec la nouvelle activité
+                    return [...oldActivities, activityCreated]; // Sinon, ajoute la nouvelle activité
                 });
 
                 // Mettre à jour les données dans le cache pour la requête "home-activities"
-                queryClient.setQueryData(["home-activities", newActivity.user_id], (oldActivities: IActivity[] | undefined) => {
-                    if (!oldActivities) return [newActivity]; // Si pas d'activités, initialise avec la nouvelle activité
-                    return [...oldActivities, newActivity]; // Sinon, ajoute la nouvelle activité
+                queryClient.setQueryData(["home-activities"], (oldActivities: IActivity[] | undefined) => {
+                    if (!oldActivities) return [activityCreated]; // Si pas d'activités, initialise avec la nouvelle activité
+                    return [...oldActivities, activityCreated]; // Sinon, ajoute la nouvelle activité
                 });
             }
+        },
+        onError: (error) => {
+            // Gérer l'erreur ici, si nécessaire
+            console.error("Erreur lors de la création de l'activité", error);
         }
     })
 }
@@ -32,13 +45,13 @@ export const useUpdateActivity = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: ({ user_id, activity }: { user_id: string; activity : IActivity }) =>
-            updateActivity(user_id, activity),
-        onSuccess: (updatedActivity: IActivity | null) => {
+        mutationFn: ({ user, activity }: { user: IUser; activity : IActivity}) =>
+            updateActivity(user, activity),
+        onSuccess: (updatedActivity : IActivity) => {
 
             if(updatedActivity) {
                 // Mettre à jour les données dans le cache pour la requête "personnal-activities"
-                queryClient.setQueryData(["personnal-activities", updatedActivity.user_id], (oldActivities: IActivity[] | undefined) => {
+                queryClient.setQueryData(["personnal-activities"], (oldActivities: IActivity[] | undefined) => {
                     if (!oldActivities) return [updatedActivity]; // Si pas d'activités, initialise avec la nouvelle activité
                     // Remplacer l'ancienne activité par la mise à jour
                     return oldActivities.map((activity) =>
@@ -47,7 +60,7 @@ export const useUpdateActivity = () => {
                 });
 
                 // Mettre à jour les données dans le cache pour la requête "home-activities"
-                queryClient.setQueryData(["home-activities", updatedActivity.user_id], (oldActivities: IActivity[] | undefined) => {
+                queryClient.setQueryData(["home-activities"], (oldActivities: IActivity[] | undefined) => {
                     if (!oldActivities) return [updatedActivity]; // Si pas d'activités, initialise avec la nouvelle activité
                     // Remplacer l'ancienne activité par la mise à jour
                     return oldActivities.map((activity) =>
@@ -65,7 +78,7 @@ export const useDeleteActivity = () => {
     return useMutation({
         mutationFn: ({ user_id, activity_id }: { user_id: string; activity_id : string }) => 
             deleteActivity(user_id, activity_id),
-        onSuccess: (deletedActivityId: string | null) => {
+        onSuccess: (deletedActivityId: string) => {
 
             if(deletedActivityId) {
                 // Mettre à jour les données dans le cache pour la requête "personnal-activities"
@@ -92,9 +105,9 @@ export const useFollowUser = () => {
     return useMutation({
         mutationFn: ({ user, userToFollowID }: { user: IUser; userToFollowID: string }) =>
             followUser(user, userToFollowID),
-        onSuccess: (updatedCurrentUser: IUser | null) => {
+        onSuccess: (updatedCurrentUser: IUser) => {
             if(updatedCurrentUser) {
-                queryClient.invalidateQueries({ queryKey: ["home-activities", updatedCurrentUser] })
+                queryClient.invalidateQueries({ queryKey: ["home-activities"] })
             }
         }
     })
@@ -106,9 +119,9 @@ export const useUnFollowUser = () => {
     return useMutation({
         mutationFn: ({ user, userToUnFollowID }: { user: IUser; userToUnFollowID: string }) =>
             unFollowUser(user, userToUnFollowID),
-        onSuccess: (updatedCurrentUser: IUser | null) => {
+        onSuccess: (updatedCurrentUser: IUser) => {
             if(updatedCurrentUser) {
-                queryClient.invalidateQueries({ queryKey: ["home-activities", updatedCurrentUser] })
+                queryClient.invalidateQueries({ queryKey: ["home-activities"] })
             }
         }
     })

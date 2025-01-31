@@ -15,9 +15,8 @@ export const HeaderActivity : React.FC<IHeaderActivityProps> = ({activity, owner
             </Link>
             <div className="header-activity-info">
                 <h3>{owner.name}</h3>
-                <p>{newDate}</p>
-                <p>{activity.place}</p>
-                <p>{activity.type}</p>
+                <p className="header-date">Fait le {newDate} à {activity.place}</p>
+                <p className="header-type">Type : {activity.type}</p>
             </div>
         </div>
     )

@@ -5,6 +5,6 @@ import './Image.css'
 export const Image : React.FC<IImageProps> = ({className = "", src, alt}) => {
 
     return (
-        <img className={className} src={src} alt={alt}/>
+        <img className={className} src={src ? src : "https://avatar.iran.liara.run/public"} alt={alt}/>
     )
 }

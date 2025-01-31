@@ -18,6 +18,7 @@ interface IAuthState {
     isAuthenticated: boolean
     isLoading: boolean
     fetchUser: () => Promise<void>
+    setUser: (userUpdated: IUser) => void
     login: (email: string, password: string) => Promise<void>
     logout: () => void,
     register: (name: string, address: string, email: string, password: string) => Promise<void>
@@ -38,6 +39,9 @@ export const useAuthStore = create<IAuthState>((set) => ({
         } catch (error) {
             set({ user: null, isAuthenticated: false, isLoading: false });
         }
+    },
+    setUser: (userUpdated: IUser) => {
+        set({ user: userUpdated })
     },
     // Connexion
     login: async (email : string, password : string) => {

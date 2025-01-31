@@ -1,0 +1,38 @@
+.activity-card {
+    gap: 1rem;
+    border: 1px solid var(--color-primary);
+    background-color: #424242;
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    padding: 2rem 2rem 1rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.activity-stats {
+    display: flex;
+    margin: 2rem 0;
+    font-size: var(--font-size-body-lg)
+}
+
+.activity-card .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    width: 33%;
+    gap: 0.5rem;
+}
+
+.title-stat {
+    font-size: var(--font-size-h3-sm);
+    font-weight: var(--font-weight-title);
+}
+
+.like-stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-h3-sm);
+    gap: 1rem;
+}

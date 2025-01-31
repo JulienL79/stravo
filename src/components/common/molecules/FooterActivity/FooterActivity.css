@@ -1,0 +1,14 @@
+.footer-activity {
+    display: flex;
+}
+
+.footer-activity > * {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-activity a::after {
+    display: none;
+}

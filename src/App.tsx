@@ -1,7 +1,7 @@
 import { Router } from "routes/Router"
 import { useEffect } from "react"
 import { useAuthStore } from "@store/useAuthStore"
-import { InitialLoader } from "@common-pages/InitialLoader"
+import { InitialLoader } from "@common-atoms/InitialLoader"
 import { Navbar } from "@common-molecules/Navbar"
 import { Icon } from "@common-atoms/Icon"
 import { INavItemProps } from "@common-atoms/NavItem"
@@ -20,7 +20,7 @@ export const App = () => {
     ]
 
     const footerList : INavItemProps[] = [
-        {to:"/home", content:<Icon name="House"/>},
+        {to:"/", content:<Icon name="House"/>},
         {to:"/mailbox", content:<Icon name="Mail"/>},
         {to:"/activity/add", content:<Icon name="CirclePlus"/>},
         {to:"/profile", content:<Icon name="User"/>}
@@ -30,10 +30,11 @@ export const App = () => {
         fetchUser()
     }, []);
 
-    if (isLoading) return <InitialLoader/>
+    if (isLoading) return <></>
 
     return (
         <>
+            <InitialLoader/>
             <Navbar navLinks={headerList} className="header"/>
             <Router/>
             {

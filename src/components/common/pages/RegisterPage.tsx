@@ -1,13 +1,13 @@
 import { useAuthStore } from "@store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { Form } from "@common-organisms/Form";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { ErrorModal } from "@common-atoms/ErrorModal";
 
 export const RegisterPage = () => {
-    const { register } = useAuthStore();  // Je suppose que tu as une fonction register pour l'inscription
-    const navigate = useNavigate();
-    const [error, setError] = useState<string>("");
+    const { register } = useAuthStore()
+    const navigate = useNavigate()
+    const [error, setError] = useState<string>("")
 
     const formFields = [
         { label: "Nom", id: "name", type: "text", placeholder: "Entrez votre nom", required: true },

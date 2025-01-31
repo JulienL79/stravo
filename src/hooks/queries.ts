@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchFollowingsActivities, fetchActivitiesOfUser, fetchAllActivities } from "@api/activityApi";
+import { fetchHomeActivities, fetchActivitiesOfUser, fetchAllActivities } from "@api/activityApi";
 import type { IUser } from "../types/User";
 
 export const useAllActivities = () => {
@@ -11,7 +11,7 @@ export const useAllActivities = () => {
 
 export const usePersonnalActivities = (user_id: string) => {
     return useQuery({
-        queryKey: ["personnal-activities", user_id],
+        queryKey: ["personnal-activities"],
         queryFn: () => fetchActivitiesOfUser(user_id),
         enabled: !!user_id, // S'assurer que user_id est défini avant d'exécuter la requête
     })
@@ -19,8 +19,8 @@ export const usePersonnalActivities = (user_id: string) => {
 
 export const useHomeActivities = (user: IUser) => {
     return useQuery({
-        queryKey: ["home-activities", user],
-        queryFn: () => fetchFollowingsActivities(user),
+        queryKey: ["home-activities"],
+        queryFn: () => fetchHomeActivities(user),
         enabled: !!user, // S'assurer que user est défini avant d'exécuter la requête
     })
 }

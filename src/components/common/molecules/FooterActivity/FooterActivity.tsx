@@ -24,13 +24,13 @@ export const FooterActivity : React.FC<IFooterActivityProps> = ({activity}) => {
             }
     
             setIsLiked(!isLiked)
-            updateActivity(user.id, updatedActivity)
+            updateActivity({user, activity:  updatedActivity})
         }
     }
 
     return (
         <div className="footer-activity">
-            <Button className={`footer-btn ${isLiked ? "liked" : ""}`} content={<Icon name="ThumbsUp"/>} onClick={handleLike}/>
+            <Button className={`link ${isLiked ? "liked" : ""}`} content={<Icon name="ThumbsUp"/>} onClick={handleLike}/>
             <Link to={`activity/${activity.id}/comments`}>
                 <Icon name="MessageSquareText"/>
             </Link>

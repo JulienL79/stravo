@@ -58,6 +58,16 @@ h1 {
     margin-bottom: 40px;
 }
 
+h2 {
+	font-size: var(--font-size-h2-sm);
+    font-weight: var(--font-weight-title);
+}
+
+h3 {
+	font-size: var(--font-size-h3-sm);
+    font-weight: var(--font-weight-title);
+}
+
 em {
     font-style: italic;
 }
@@ -206,10 +216,6 @@ body::-webkit-scrollbar {
 
     h1 {
         font-size: var(--font-size-h2-sm);
-    }
-
-    h2 {
-        font-size: var(--font-size-h3-sm);
     }
 
     fieldset p {

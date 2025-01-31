@@ -18,7 +18,12 @@ export const Form: React.FC<IFormProps> = ({ fields, onSubmit, buttonContent }) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);  // Passe les données à la fonction onSubmit
+        try {
+            onSubmit(formData);
+            setFormData({})
+        } catch(err) {
+            console.error(err)
+        }
     };
 
     return (
@@ -32,6 +37,8 @@ export const Form: React.FC<IFormProps> = ({ fields, onSubmit, buttonContent }) 
                     placeholder={field.placeholder}
                     required={field.required}
                     onChange={handleChange}
+                    min={field.min}
+                    step={field.step}
                     value={formData[field.id] || ""}
                 />
             ))}

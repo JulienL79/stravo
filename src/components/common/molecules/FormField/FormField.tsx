@@ -13,6 +13,8 @@ export const FormField:React.FC<IFormFieldProps> = ({
     value = "",
     className = "",
     required = false,
+    min,
+    step
 }) => {
 
     if(className === "other") {
@@ -29,6 +31,8 @@ export const FormField:React.FC<IFormFieldProps> = ({
                 placeholder={placeholder}
                 type={type}
                 required={required}
+                min={min}
+                step={step}
             />
         </div>
     )
