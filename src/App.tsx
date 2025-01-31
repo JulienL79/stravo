@@ -9,7 +9,7 @@ import "./css-global/reset.css"
 import "./css-global/main.css"
 
 export const App = () => {
-    const { user, fetchUser, isLoading, isAuthenticated } = useAuthStore()
+    const { fetchUser, isLoading, isAuthenticated } = useAuthStore()
 
     const headerList : INavItemProps[] =  isAuthenticated
     ? [

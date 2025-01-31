@@ -1,6 +1,6 @@
 import { fetchUserById } from "@api/userApi"
 import { useAuthStore } from "@store/useAuthStore"
-import { IUser } from "@types/User"
+import { IUser } from "./../../../../types/User"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Skeleton } from "@common-atoms/Skeleton"
@@ -16,7 +16,7 @@ export const User = () => {
     const { user } = useAuthStore()
     const { data } = useHomeActivities(user)
     const { id: user_id } = useParams<{ id: string }>()
-    const [userVisited, setUserVisited] = useState<IUser>({})
+    const [userVisited, setUserVisited] = useState<IUser | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string>("")
     const { mutate : followUser } = useFollowUser()

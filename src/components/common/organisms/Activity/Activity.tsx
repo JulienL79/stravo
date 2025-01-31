@@ -1,6 +1,6 @@
 import { IActivityProps } from "./Activity.props";
 import React, { useEffect, useState } from "react";
-import { IUser } from "@types/User";
+import { IUser } from "./../../../../types//User";
 import { fetchUserById } from "@api/userApi";
 import "./Activity.css"
 import { Skeleton } from "@common-atoms/Skeleton";

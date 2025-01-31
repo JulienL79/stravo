@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser } from "@types/User";
+import { IUser } from "./../types/User";
 import { useAuthStore } from "@store/useAuthStore";
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -15,11 +15,15 @@ interface IUserRegister {
     password?: string
 }
 
-export const fetchUserById = async (user_id : string) : Promise<IUser> => {
+export const fetchUserById = async (user_id : string | undefined) : Promise<IUser> => {
     try {
-        const response = await axios.get(`${API_URL}/users/${user_id}`)
-        const user: IUser = response.data
-        return { ...user, createdAt: new Date(user.createdAt) }
+        if(user_id) {
+            const response = await axios.get(`${API_URL}/users/${user_id}`)
+            const user: IUser = response.data
+            return { ...user, createdAt: new Date(user.createdAt) }
+        } else {
+            throw new Error("Erreur lors de la récupération de l'utilisateur")
+        }
     } catch (err) {
         console.error("Erreur lors de la récupération de l'utilisateur :", err)
         throw new Error("Erreur lors de la récupération de l'utilisateur")

@@ -17,10 +17,10 @@ export const usePersonnalActivities = (user_id: string) => {
     })
 }
 
-export const useHomeActivities = (user: IUser) => {
+export const useHomeActivities = (user: IUser | null) => {
     return useQuery({
         queryKey: ["home-activities"],
-        queryFn: () => fetchHomeActivities(user),
+        queryFn: () => user && fetchHomeActivities(user),
         enabled: !!user, // S'assurer que user est défini avant d'exécuter la requête
     })
 }

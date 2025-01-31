@@ -8,8 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist"
   },
+  "homepage": "https://julienl79.github.io/stravo/",
   "dependencies": {
     "@tanstack/react-query": "^5.65.1",
     "axios": "^1.7.9",

@@ -1,14 +1,13 @@
 import { Activity } from "@common-organisms/Activity"
 import { useAuthStore } from "@store/useAuthStore"
 import { useHomeActivities } from "@hooks/queries"
-import { useFollowUser } from "@hooks/mutations"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@common-atoms/Skeleton"
 import { Separator } from "@common-atoms/Separator"
 
 export const Home = () => {
     const { user } = useAuthStore()
-    const { data, isLoading, isError, error, refetch, isFetching } = useHomeActivities(user)
+    const { data, isLoading, isError, error, isFetching } = useHomeActivities(user)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {

@@ -3,7 +3,7 @@ import { UserInfo } from "@common-molecules/UserInfo"
 import { Skeleton } from "@common-atoms/Skeleton"
 import { Separator } from "@common-atoms/Separator"
 import { ErrorModal } from "@common-atoms/ErrorModal"
-import { IUser } from "@types/User"
+import { IUser } from "./../../../types/User"
 import { useEffect, useState } from "react"
 
 export const Search = () => {

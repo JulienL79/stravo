@@ -1,6 +1,6 @@
 import axios from "axios";
-import type { IActivity } from "@types/Activity";
-import type { IUser, IFollowing } from "@types/User";
+import type { IActivity } from "./../types/Activity";
+import type { IUser, IFollowing } from "./../types/User";
 
 const API_URL = import.meta.env.VITE_API_URL
 

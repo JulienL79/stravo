@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addActivity, updateActivity, deleteActivity } from "@api/activityApi";
 import { followUser, unFollowUser } from "@api/userApi";
-import { IActivity } from "@types/Activity";
-import { IUser } from "@types/User";
+import { IActivity } from "./../types/Activity";
+import { IUser } from "./../types/User";
 
 interface INewActivity {
     title: string,
