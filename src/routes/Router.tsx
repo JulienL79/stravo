@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import { Helmet } from "react-helmet"
 import { Home } from "@common-pages/Home"
-import { ActivityDetails } from "@common-pages/ActivityDetails"
-import { Profile } from "@common-pages/Profile"
+// import { ActivityDetails } from "@common-pages/ActivityDetails"
+// import { Profile } from "@common-pages/Profile"
 import { NotFound } from "@common-pages/Not found"
 import { PrivateRoute } from "./PrivateRoute"
 import { LoginPage } from "@common-pages/LoginPage"
@@ -55,7 +55,7 @@ export const Router = () => {
                 } />
             </Route>
 
-            <Route element={<PrivateRoute />}>
+            {/* <Route element={<PrivateRoute />}>
                 <Route path="/activity/:id" element={
                     <>
                         <Helmet>
@@ -64,7 +64,7 @@ export const Router = () => {
                         <ActivityDetails />
                     </>
                 } />
-            </Route>
+            </Route> */}
 
             <Route element={<PrivateRoute />}>
                 <Route path="/users/:id" element={
@@ -88,7 +88,7 @@ export const Router = () => {
                 } />
             </Route>
 
-            <Route element={<PrivateRoute />}>
+            {/* <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={
                     <>
                         <Helmet>
@@ -97,7 +97,7 @@ export const Router = () => {
                         <Profile />
                     </>
                 } />
-            </Route>
+            </Route> */}
 
 
             <Route path="*" element={

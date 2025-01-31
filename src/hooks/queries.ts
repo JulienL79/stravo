@@ -17,7 +17,7 @@ export const usePersonnalActivities = (user_id: string) => {
     })
 }
 
-export const useHomeActivities = (user: IUser | null) => {
+export const useHomeActivities = (user: IUser) => {
     return useQuery({
         queryKey: ["home-activities"],
         queryFn: () => user && fetchHomeActivities(user),

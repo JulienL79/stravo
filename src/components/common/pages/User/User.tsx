@@ -14,7 +14,7 @@ import { useHomeActivities } from "@hooks/queries"
 
 export const User = () => {
     const { user } = useAuthStore()
-    const { data } = useHomeActivities(user)
+    const { data } = useHomeActivities(user as IUser)
     const { id: user_id } = useParams<{ id: string }>()
     const [userVisited, setUserVisited] = useState<IUser | null>(null)
     const [loading, setLoading] = useState<boolean>(true)

@@ -4,10 +4,11 @@ import { useHomeActivities } from "@hooks/queries"
 import { useEffect, useState } from "react"
 import { Skeleton } from "@common-atoms/Skeleton"
 import { Separator } from "@common-atoms/Separator"
+import { IUser } from "./../../../types/User"
 
 export const Home = () => {
     const { user } = useAuthStore()
-    const { data, isLoading, isError, error, isFetching } = useHomeActivities(user)
+    const { data, isLoading, isError, error, isFetching } = useHomeActivities(user as IUser)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
